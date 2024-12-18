@@ -975,40 +975,40 @@ void Displ_fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t 
 
 
 
+//
+//
+//
+//
+//
+//
+//
+//void Displ_drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color)
+//{
+//    int16_t max_radius = ((w < h) ? w : h) / 2; // 1/2 minor axis
+//    if(r > max_radius) r = max_radius;
+//    Displ_Line(x+r, y, x+w-r-1, y, color);
+//    Displ_Line(x+r, y+h-1, x-1+w-r, y+h-1, color);
+//    Displ_Line(x, y+r, x, y-1+h-r, color); // Left
+//    Displ_Line(x+w-1, y+r, x+w-1, y-1+h-r, color); // Right
+//    drawCircleHelper(x+r    , y+r    , r, 1, color);
+//    drawCircleHelper(x+w-r-1, y+r    , r, 2, color);
+//    drawCircleHelper(x+w-r-1, y+h-r-1, r, 4, color);
+//    drawCircleHelper(x+r    , y+h-r-1, r, 8, color);
+//}
 
 
 
 
 
-
-
-void Displ_drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color)
-{
-    int16_t max_radius = ((w < h) ? w : h) / 2; // 1/2 minor axis
-    if(r > max_radius) r = max_radius;
-    Displ_Line(x+r, y, x+w-r-1, y, color);
-    Displ_Line(x+r, y+h-1, x-1+w-r, y+h-1, color);
-    Displ_Line(x, y+r, x, y-1+h-r, color); // Left
-    Displ_Line(x+w-1, y+r, x+w-1, y-1+h-r, color); // Right
-    drawCircleHelper(x+r    , y+r    , r, 1, color);
-    drawCircleHelper(x+w-r-1, y+r    , r, 2, color);
-    drawCircleHelper(x+w-r-1, y+h-r-1, r, 4, color);
-    drawCircleHelper(x+r    , y+h-r-1, r, 8, color);
-}
-
-
-
-
-
-void Displ_fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color)
-{
-    int16_t max_radius = ((w < h) ? w : h) / 2; // 1/2 minor axis
-    if(r > max_radius) r = max_radius;
-    Displ_FillArea(x+r, y, w-2*r, h, color);
-    fillCircleHelper(x+w-r-1, y+r, r, 1, h-2*r-1, color);
-    fillCircleHelper(x+r    , y+r, r, 2, h-2*r-1, color);
-}
-
+//void Displ_fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color)
+//{
+//    int16_t max_radius = ((w < h) ? w : h) / 2; // 1/2 minor axis
+//    if(r > max_radius) r = max_radius;
+//    Displ_FillArea(x+r, y, w-2*r, h, color);
+//    fillCircleHelper(x+w-r-1, y+r, r, 1, h-2*r-1, color);
+//    fillCircleHelper(x+r    , y+r, r, 2, h-2*r-1, color);
+//}
+//
 
 
 

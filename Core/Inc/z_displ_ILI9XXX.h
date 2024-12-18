@@ -322,6 +322,10 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 
 uint32_t  Displ_BackLight(uint8_t cmd);
 
+//mel
+void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize, uint8_t isTouchGFXBuffer );
+void Displ_SetAddressWindow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
+
 
 #ifdef DISPLAY_USING_TOUCHGFX
 int touchgfxDisplayDriverTransmitActive();
