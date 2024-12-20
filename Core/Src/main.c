@@ -154,21 +154,6 @@ void action_switch_changed(lv_event_t * e)
 }
 
 
-//static void ConvHL(uint8_t *s, int32_t l)
-//{
-//	uint8_t v;
-//	while (l > 0) {
-//		v = *(s+1);
-//		*(s+1) = *s;
-//		*s = v;
-//		s += 2;
-//		l -= 2;
-//	}
-//}
-
-
-
-
 void tft_flush_cb(lv_display_t * display, const lv_area_t * area, uint8_t * px_map)
 {
 
@@ -345,7 +330,7 @@ int main(void)
 //		  lv_imagebutton_set_state(objects.led_button, LV_IMAGEBUTTON_STATE_PRESSED);
 //		  lv_obj_invalidate(objects.led_button);
 
-
+		  lv_led_set_brightness(objects.obj1, 0);
 
 	  }
 	  else
@@ -355,6 +340,8 @@ int main(void)
 //		  lv_obj_clear_flag(objects.led_button, LV_OBJ_FLAG_HIDDEN);  //show
 //		  lv_obj_invalidate(objects.led_button);
 //		  lv_label_set_text_fmt(label1, "Value: %s", get_var_therm_temp() );
+
+		  lv_led_set_brightness(objects.obj1, 255);
 	  }
 
 	  Touch_GetXYtouch(&tData.Xpos, &tData.Ypos, &tData.isTouch);

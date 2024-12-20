@@ -92,7 +92,7 @@ void tick_screen_main() {
             tick_value_change_obj = objects.temperature;
             lv_label_set_text(objects.temperature, new_val);
             tick_value_change_obj = NULL;
-//            lv_obj_invalidate(objects.temperature);
+
 
         }
     }
