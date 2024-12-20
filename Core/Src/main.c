@@ -176,9 +176,8 @@ void tft_flush_cb(lv_display_t * display, const lv_area_t * area, uint8_t * px_m
     uint16_t width = area->x2 - area->x1 + 1;
 
 	Displ_SetAddressWindow(area->x1, area->y1, area->x2, area->y2);
-//    Displ_SetAddressWindow(area->x1, area->y1, width, height);
 
-	   uint16_t * buf16 = (uint16_t *)px_map; /* Let's say it's a 16 bit (RGB565) display */
+	uint16_t * buf16 = (uint16_t *)px_map; /* Let's say it's a 16 bit (RGB565) display */
 
 	   //NON DMA - 20 fps at 80-90% CPU
 
