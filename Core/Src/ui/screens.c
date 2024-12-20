@@ -13,6 +13,8 @@
 objects_t objects;
 lv_obj_t *tick_value_change_obj;
 
+extern lv_display_t * display1;
+
 void create_screen_main() {
     lv_obj_t *obj = lv_obj_create(0);
     objects.main = obj;
@@ -23,20 +25,6 @@ void create_screen_main() {
     lv_obj_set_style_text_font(obj, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
     {
         lv_obj_t *parent_obj = obj;
-        {
-            // maincontainer
-            lv_obj_t *obj = lv_obj_create(parent_obj);
-            objects.maincontainer = obj;
-            lv_obj_set_pos(obj, 0, 0);
-            lv_obj_set_size(obj, 320, 240);
-            lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-        }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj0 = obj;
@@ -76,26 +64,49 @@ void create_screen_main() {
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff2844ec), LV_PART_MAIN | LV_STATE_DEFAULT);
         }
         {
-            // ledButton
-            lv_obj_t *obj = lv_imagebutton_create(parent_obj);
-            objects.led_button = obj;
-            lv_obj_set_pos(obj, 160, 95);
-            lv_obj_set_size(obj, LV_SIZE_CONTENT, 100);
-            lv_imagebutton_set_src(obj, LV_IMAGEBUTTON_STATE_RELEASED, NULL, &img_led_offsr, NULL);
-            lv_imagebutton_set_src(obj, LV_IMAGEBUTTON_STATE_PRESSED, NULL, &img_led_onsr, NULL);
-            lv_obj_clear_flag(obj, LV_OBJ_FLAG_CLICK_FOCUSABLE|LV_OBJ_FLAG_GESTURE_BUBBLE|LV_OBJ_FLAG_PRESS_LOCK|LV_OBJ_FLAG_SCROLLABLE|LV_OBJ_FLAG_SCROLL_CHAIN_HOR|LV_OBJ_FLAG_SCROLL_CHAIN_VER|LV_OBJ_FLAG_SCROLL_ELASTIC|LV_OBJ_FLAG_SCROLL_MOMENTUM|LV_OBJ_FLAG_SCROLL_WITH_ARROW|LV_OBJ_FLAG_SNAPPABLE);
+            lv_obj_t *obj = lv_led_create(parent_obj);
+            objects.obj1 = obj;
+            lv_obj_set_pos(obj, 194, 95);
+            lv_obj_set_size(obj, 32, 32);
+            lv_led_set_color(obj, lv_color_hex(0xff0000ff));
+            lv_led_set_brightness(obj, 255);
+        }
+        {
+            // Temperature
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.temperature = obj;
+            lv_obj_set_pos(obj, 176, 148);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "22.5");
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffe0e810), LV_PART_MAIN | LV_STATE_DEFAULT);
         }
     }
 }
 
 void tick_screen_main() {
+    {
+        const char *new_val = get_var_therm_temp();
+        const char *cur_val = lv_label_get_text(objects.temperature);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.temperature;
+            lv_label_set_text(objects.temperature, new_val);
+            tick_value_change_obj = NULL;
+            lv_obj_invalidate(objects.temperature);
+
+        }
+    }
 }
 
 
 void create_screens() {
-    lv_disp_t *dispp = lv_disp_get_default();
-    lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), false, LV_FONT_DEFAULT);
-    lv_disp_set_theme(dispp, theme);
+//    lv_disp_t *dispp = lv_disp_get_default();
+	display1 = lv_disp_get_default();
+//    lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), false, LV_FONT_DEFAULT);
+    lv_theme_t *theme = lv_theme_default_init(display1, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), false, LV_FONT_DEFAULT);
+
+//    lv_disp_set_theme(dispp, theme);
+    lv_disp_set_theme(display1, theme);
     
     create_screen_main();
 }

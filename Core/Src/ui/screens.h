@@ -9,12 +9,12 @@ extern "C" {
 
 typedef struct _objects_t {
     lv_obj_t *main;
-    lv_obj_t *maincontainer;
     lv_obj_t *obj0;
     lv_obj_t *led_r;
     lv_obj_t *led_g;
     lv_obj_t *led_b;
-    lv_obj_t *led_button;
+    lv_obj_t *obj1;
+    lv_obj_t *temperature;
 } objects_t;
 
 extern objects_t objects;

@@ -23,8 +23,11 @@
 /* USER CODE BEGIN Includes */
 #include "lvgl.h"
 #include "ui.h"  //eezstudio
+#include "vars.h" //eezstudio
 //#include "screens.h"
-#include "stdbool.h"
+#include <stdbool.h>
+#include <stdlib.h> //rand
+#include <stdio.h>	//sprintf
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +59,8 @@ TIM_HandleTypeDef htim3;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-uint8_t buf1[TFT_HOR_RES*TFT_VER_RES / 20 * BYTES_PER_PIXEL];	//7680
+uint8_t buf1[TFT_HOR_RES*TFT_VER_RES / 30 * BYTES_PER_PIXEL];	//5120
+//uint8_t buf1[TFT_HOR_RES*TFT_VER_RES / 20 * BYTES_PER_PIXEL];	//7680
 //uint8_t buf1[TFT_HOR_RES*TFT_VER_RES / 15 * BYTES_PER_PIXEL];	//10240
 //uint8_t buf1[TFT_HOR_RES*TFT_VER_RES / 10 * BYTES_PER_PIXEL];	//15360
 //uint8_t buf1[TFT_HOR_RES*TFT_VER_RES /  3 * BYTES_PER_PIXEL]; //51200 bytes
@@ -79,6 +83,10 @@ bool B1State = false;
 
 extern objects_t objects;
 
+const char *get_var_therm_temp();  //get thermistor
+
+lv_display_t * display1;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -95,6 +103,33 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int myrandom(int min, int max){
+   return (rand() % (max + 1 - min) + min);
+}
+
+
+const char *get_var_therm_temp()  //get thermistor
+{
+	static int count = 0;
+	static char tempbuf[10];
+
+	count++;
+	if(count > 60 * 10 * 5)
+	{
+		count = 0;
+
+
+
+	int val = myrandom(200, 225);
+
+	float temp = val/10.0;
+
+	sprintf(tempbuf, "%0.1f", temp);
+	}
+	return tempbuf;
+
+}
+
 static lv_obj_t * spinbox;
 
 static void lv_spinbox_increment_event_cb(lv_event_t * e)
@@ -136,7 +171,12 @@ void action_switch_changed(lv_event_t * e)
 
 void tft_flush_cb(lv_display_t * display, const lv_area_t * area, uint8_t * px_map)
 {
+
+    uint16_t height = area->y2 - area->y1 + 1;
+    uint16_t width = area->x2 - area->x1 + 1;
+
 	Displ_SetAddressWindow(area->x1, area->y1, area->x2, area->y2);
+//    Displ_SetAddressWindow(area->x1, area->y1, width, height);
 
 	   uint16_t * buf16 = (uint16_t *)px_map; /* Let's say it's a 16 bit (RGB565) display */
 
@@ -155,8 +195,7 @@ void tft_flush_cb(lv_display_t * display, const lv_area_t * area, uint8_t * px_m
 
 	   //DMA - 60 fps at 3-5% CPU
 
-      uint16_t height = area->y2 - area->y1 + 1;
-      uint16_t width = area->x2 - area->x1 + 1;
+
 
 ////    	  ConvHL((uint8_t *)buf16, (int32_t)width*height);
 
@@ -241,8 +280,10 @@ int main(void)
   lv_init();
   lv_tick_set_cb(HAL_GetTick);
 
+
+
   //mel
-  lv_display_t * display1 = lv_display_create(TFT_HOR_RES, TFT_VER_RES);
+  display1 = lv_display_create(TFT_HOR_RES, TFT_VER_RES);
 
   lv_display_set_buffers(display1, buf1, NULL, sizeof(buf1), LV_DISPLAY_RENDER_MODE_PARTIAL);
 //mel buf2 instead of NULL
@@ -259,7 +300,9 @@ int main(void)
 
   //mel for eezstudio
   ui_init();
-  create_screen_main();
+
+
+//  create_screen_main();
 
   /*Change the active screen's background color*/
 //  lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0xFF0000), LV_PART_MAIN);
@@ -285,6 +328,10 @@ int main(void)
 //  lv_obj_align_to(btn, spinbox, LV_ALIGN_OUT_LEFT_MID, -5, 0);
 //  lv_obj_set_style_bg_image_src(btn, LV_SYMBOL_MINUS, 0);
 //  lv_obj_add_event_cb(btn, lv_spinbox_decrement_event_cb, LV_EVENT_ALL, NULL);
+
+  lv_obj_t * label1 = lv_label_create(lv_screen_active());
+  lv_label_set_text_fmt(label1, "Value: %s", get_var_therm_temp() );
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -296,25 +343,29 @@ int main(void)
 		  B1State = false;
 //		  lv_obj_add_flag(objects.led_button, LV_OBJ_FLAG_HIDDEN);  //hide
 //		  lv_obj_invalidate(objects.led_off);
-		  lv_imagebutton_set_state(objects.led_button, LV_IMAGEBUTTON_STATE_PRESSED);
-		  lv_obj_invalidate(objects.led_button);
+//		  lv_imagebutton_set_state(objects.led_button, LV_IMAGEBUTTON_STATE_PRESSED);
+//		  lv_obj_invalidate(objects.led_button);
+
 
 
 	  }
 	  else
 	  {
 		  B1State = true;
-		  lv_imagebutton_set_state(objects.led_button, LV_IMAGEBUTTON_STATE_RELEASED);
+//		  lv_imagebutton_set_state(objects.led_button, LV_IMAGEBUTTON_STATE_RELEASED);
 //		  lv_obj_clear_flag(objects.led_button, LV_OBJ_FLAG_HIDDEN);  //show
-		  lv_obj_invalidate(objects.led_button);
-
+//		  lv_obj_invalidate(objects.led_button);
+//		  lv_label_set_text_fmt(label1, "Value: %s", get_var_therm_temp() );
 	  }
 
 	  Touch_GetXYtouch(&tData.Xpos, &tData.Ypos, &tData.isTouch);
 
+
 	  ui_tick();
 //	  tick_screen_main();
 	  lv_timer_handler();
+//	  lv_task_handler(); //m
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
