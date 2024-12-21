@@ -79,7 +79,8 @@ sTouchData tData;
 
 //extern volatile uint8_t Touch_PenDown;
 
-bool B1State = false;
+bool B1State = true;
+bool B1StateNew = false;
 
 extern objects_t objects;
 
@@ -151,6 +152,32 @@ static void lv_spinbox_decrement_event_cb(lv_event_t * e)
 void action_switch_changed(lv_event_t * e)
 {
 
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * obj = lv_event_get_target(e);
+
+    if(objects.swred == obj)
+    {
+	if(lv_obj_has_state(objects.swred, LV_STATE_CHECKED))
+		lv_led_set_brightness(objects.redled, 0);
+	else
+		lv_led_set_brightness(objects.redled, 255);
+    }
+
+    if(objects.swgreen == obj)
+    {
+	if(lv_obj_has_state(objects.swgreen, LV_STATE_CHECKED))
+		lv_led_set_brightness(objects.greenled, 0);
+	else
+		lv_led_set_brightness(objects.greenled, 255);
+    }
+
+    if(objects.swblue == obj)
+    {
+	if(lv_obj_has_state(objects.swblue, LV_STATE_CHECKED))
+		lv_led_set_brightness(objects.blueled, 0);
+	else
+		lv_led_set_brightness(objects.blueled, 255);
+    }
 }
 
 
@@ -324,33 +351,40 @@ int main(void)
   {
 	  if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin))
 	  {
-		  B1State = false;
+		  B1StateNew = false;
 //		  lv_obj_add_flag(objects.led_button, LV_OBJ_FLAG_HIDDEN);  //hide
 //		  lv_obj_invalidate(objects.led_off);
 //		  lv_imagebutton_set_state(objects.led_button, LV_IMAGEBUTTON_STATE_PRESSED);
 //		  lv_obj_invalidate(objects.led_button);
 
-		  lv_led_set_brightness(objects.obj1, 0);
+//		  lv_led_set_brightness(objects.obj1, 0);
 
 	  }
 	  else
 	  {
-		  B1State = true;
+		  B1StateNew = true;
 //		  lv_imagebutton_set_state(objects.led_button, LV_IMAGEBUTTON_STATE_RELEASED);
 //		  lv_obj_clear_flag(objects.led_button, LV_OBJ_FLAG_HIDDEN);  //show
 //		  lv_obj_invalidate(objects.led_button);
 //		  lv_label_set_text_fmt(label1, "Value: %s", get_var_therm_temp() );
 
-		  lv_led_set_brightness(objects.obj1, 255);
+//		  lv_led_set_brightness(objects.obj1, 255);
+	  }
+
+	  if(B1State != B1StateNew )
+	  {
+		  B1State = B1StateNew;
+		  lv_led_set_brightness(objects.blueled, B1State ? 255 : 0);
+
 	  }
 
 	  Touch_GetXYtouch(&tData.Xpos, &tData.Ypos, &tData.isTouch);
 
 
 	  ui_tick();
-//	  tick_screen_main();
+
 	  lv_timer_handler();
-//	  lv_task_handler(); //m
+
 
     /* USER CODE END WHILE */
 

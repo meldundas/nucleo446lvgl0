@@ -10,11 +10,13 @@ extern "C" {
 typedef struct _objects_t {
     lv_obj_t *main;
     lv_obj_t *obj0;
-    lv_obj_t *led_r;
-    lv_obj_t *led_g;
-    lv_obj_t *led_b;
-    lv_obj_t *obj1;
+    lv_obj_t *swred;
+    lv_obj_t *swgreen;
+    lv_obj_t *swblue;
+    lv_obj_t *blueled;
     lv_obj_t *temperature;
+    lv_obj_t *greenled;
+    lv_obj_t *redled;
 } objects_t;
 
 extern objects_t objects;
