@@ -26,7 +26,7 @@ void create_screen_main() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj0 = obj;
-            lv_obj_set_pos(obj, 80, 28);
+            lv_obj_set_pos(obj, 79, 12);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text(obj, "ECET 260");
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffe6ee05), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -74,11 +74,11 @@ void create_screen_main() {
             // Temperature
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.temperature = obj;
-            lv_obj_set_pos(obj, 176, 148);
+            lv_obj_set_pos(obj, 185, 118);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text(obj, "");
             lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
-            lv_obj_set_style_text_color(obj, lv_color_hex(0xffe0e810), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffe6ee05), LV_PART_MAIN | LV_STATE_DEFAULT);
         }
         {
             // greenled
@@ -97,6 +97,34 @@ void create_screen_main() {
             lv_obj_set_size(obj, 32, 32);
             lv_led_set_color(obj, lv_color_hex(0xffff0000));
             lv_led_set_brightness(obj, 0);
+        }
+        {
+            // arc
+            lv_obj_t *obj = lv_arc_create(parent_obj);
+            objects.arc = obj;
+            lv_obj_set_pos(obj, 144, 65);
+            lv_obj_set_size(obj, 150, 150);
+            lv_arc_set_range(obj, 0, 50);
+            lv_arc_set_value(obj, 25);
+            lv_arc_set_bg_end_angle(obj, 60);
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.obj1 = obj;
+            lv_obj_set_pos(obj, 181, 207);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "0");
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffe6ee05), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.obj2 = obj;
+            lv_obj_set_pos(obj, 245, 207);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "50");
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffe6ee05), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
     }
 }

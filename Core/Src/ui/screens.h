@@ -17,6 +17,9 @@ typedef struct _objects_t {
     lv_obj_t *temperature;
     lv_obj_t *greenled;
     lv_obj_t *redled;
+    lv_obj_t *arc;
+    lv_obj_t *obj1;
+    lv_obj_t *obj2;
 } objects_t;
 
 extern objects_t objects;

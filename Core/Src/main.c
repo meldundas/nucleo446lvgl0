@@ -22,8 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lvgl.h"
-#include "ui.h"  //eezstudio
-#include "vars.h" //eezstudio
+#include "ui.h"  	//eezstudio
+#include "vars.h" 	//eezstudio
 //#include "screens.h"
 #include <stdbool.h>
 #include <stdlib.h> //rand
@@ -124,6 +124,8 @@ const char *get_var_therm_temp()  //get thermistor
 	int val = myrandom(200, 225);
 
 	float temp = val/10.0;
+
+	lv_arc_set_value(objects.arc, temp);
 
 	sprintf(tempbuf, "%0.1f", temp);
 	}
